@@ -16,12 +16,12 @@ library(dplyr)
 # Here we simulate some position data that might be obtained from video: 
 time <- 1:60 # time in video frames
 position.real <- time*20 # This is the bird's actual position, in cm
-error <- 3 # Now we add measurement error. 0 = no error. We can experiment with this value. Larger = more measurement error
+error <- 2 # Now we add measurement error. 0 = no error. We can experiment with this value. Larger = more measurement error
 
 position <- position.real + rnorm(length(time), 0, error) # This is the measured position = real position + error
 
 # Plot the results:
-dev.new(width=5, height=6)
+# dev.new(width=5, height=6)
 par(mfrow=c(3,1), las=1, mar=c(4,4,0.25,0.25), mgp=c(1.8,0.5,0), bty='l')
 plot(position ~ time, pch=16, cex=0.5, ylim=c(0,max(position.real)), xlab='Time (frames)', ylab='Position (cm)')
 points(position.real ~ time, type='l', lwd=2, col='grey')
@@ -43,15 +43,6 @@ points(acceleration.real~ time, type='l', lwd=2, col='grey')
 points(acceleration ~ time, pch=16, cex=0.5)
 
 # Re-run the steps above with error = 0 and compare with error = 0.1, 1, 2, 3...
-
-# What's going on? Zoom in on a few points:
-par(mfrow=c(3,1), las=1, mar=c(4,4,0.25,0.25), mgp=c(1.8,0.5,0))
-plot(position[10:12]~ time[10:12], pch=16, xlab='Time (frames)', ylab='Position (cm)')
-points(position.real ~ time, type='l', lwd=2, col='grey')
-points(position[10:12] ~ time[10:12], type='l')
-legend('topleft', bty='n', lwd=c(2, NA), col=c('grey','black'), pch=c(NA, 16), legend=c('Real','Measured'))
-# When the position is underestimated at t1 and overestimated at t2, the slope (velocity) is too high.
-# When position is overestimated at t1 and underestimated at t2, the slope (velocity) is too low, etc.
 # This problem compounds when using error-prone velocities to estimate acceleration.
 
 
